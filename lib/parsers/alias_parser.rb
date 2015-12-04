@@ -9,7 +9,8 @@ module KMExport
     data_output = IO.open(IO.sysopen(new_filename, "w"), "w")
 
     until input.eof?
-      line = JSON.parse(input.readline)
+      encodedline = input.readline.encode( "UTF-8", "binary", :invalid => :replace, :undef => :replace)
+      line = JSON.parse(encodedline)
       if line["_p2"]
         alias_output.write(JSON.generate(line))
         alias_output.write("\n")
